@@ -1,0 +1,535 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>JABEUR PROJECT 'Register'</title>
+    <style>    
+      body 
+      {
+        background: #3a4366;
+        font-family: "Lato", sans-serif;
+      }
+      a 
+      {
+        text-decoration: none;
+        color: inherit;
+      }
+      .panel {
+        width: 600px;
+        margin: auto;
+      }
+      .panel__menu {
+        width: 100%;
+        float: left;
+        margin: 20px 0 30px;
+        position: relative;
+      }
+      .panel__menu.second-box hr {
+        -webkit-transform: translateX(325%);
+                transform: translateX(325%);
+      }
+      .panel__menu hr {
+        position: absolute;
+        top: 100%;
+        width: 20%;
+        -webkit-transform: translateX(75%);
+                transform: translateX(75%);
+        border: none;
+        background: #c8dfed;
+        height: 1px;
+        margin: 0;
+        transition: all 0.5s;
+      }
+      .panel__menu li {
+        width: 50%;
+        text-align: center;
+        float: left;
+        cursor: pointer;
+      }
+      .panel__menu li a {
+        color: #fff;
+        display: inline-block;
+        padding: 17px 30px;
+        text-transform: uppercase;
+      }
+      .panel__wrap {
+        width: 100%;
+        float: left;
+        position: relative;
+      }
+      .panel__wrap .panel__box label {
+        /*opacity: 0;*/
+      }
+      .panel__wrap .panel__box:first-child {
+        left: 0;
+        -webkit-transform: translateX(30%) scale(0.8);
+                transform: translateX(30%) scale(0.8);
+        -webkit-animation: box-1--out 0.5s;
+                animation: box-1--out 0.5s;
+        -webkit-transform-origin: center right;
+                transform-origin: center right;
+      }
+      .panel__wrap .panel__box:first-child.active {
+        -webkit-transform: translateX(35%);
+                transform: translateX(35%);
+        -webkit-animation: box-1 0.5s;
+                animation: box-1 0.5s;
+      }
+      .panel__wrap .panel__box:last-child {
+        right: 0;
+        -webkit-transform: translateX(-30%) scale(0.8);
+                transform: translateX(-30%) scale(0.8);
+        -webkit-animation: box-2--out 0.5s;
+                animation: box-2--out 0.5s;
+        -webkit-transform-origin: center left;
+                transform-origin: center left;
+      }
+      .panel__wrap .panel__box:last-child input[type="submit"] {
+        background: none;
+        border: 1px solid #a5e434;
+        color: #a5e434;
+      }
+      .panel__wrap .panel__box:last-child.active {
+        -webkit-animation: box-2 0.5s;
+                animation: box-2 0.5s;
+        -webkit-transform: translateX(-35%);
+                transform: translateX(-35%);
+      }
+      .panel__box {
+        width: 50%;
+        float: left;
+        z-index: 1;
+        background: #ffffff;
+        position: absolute;
+        padding: 20px;
+        background: #ffffff;
+        border-radius: 4px;
+        transition: all 0.5s;
+      }
+      .panel__box.active {
+        background: #fff;
+        z-index: 2;
+      }
+      .panel__box.active label,
+      .panel__box.active input {
+        opacity: 1;
+      }
+      .panel__box label {
+        float: left;
+        width: 100%;
+        margin-bottom: 5px;
+        color: #a1b4b4;
+      }
+      .panel__box input {
+       /* outline: none;
+        opacity: 0;*/
+      }
+      .panel__box input[type="email"], .panel__box input[type="password"], .panel__box input[type="text"]{
+        margin-top: 10px;
+        width: 75%;
+        float: left;
+        background: #eef9fe;
+        border: 1px solid #cddbef;
+        border-radius: 3px;
+        padding: 7px 10px;
+      }
+      
+      .panel__box input[type="submit"] {
+        margin-top: 10px;
+        float: right;
+        cursor: pointer;
+        border: none;
+        padding: 11px 40px;
+        background: #a5e434;
+        border-radius: 30px;
+        color: #fff;
+      }
+      .google-btn {
+          margin: 25px;
+          width: 80%;
+          min-width: 184px;
+          max-width: 184px;
+          height: 40px;
+          background-color: #fcfcfc;
+          border-radius: 2px;
+          box-shadow: 0 3px 4px 0 rgba(0, 0, 0, .2);
+          cursor: pointer;
+          cursor: hand;
+          align-self: center;
+          user-select: none;
+          transition: all 400ms ease 0s;
+          display: flex;
+      }
+      .google-btn .google-icon-wrapper {
+          position: absolute;
+          margin-top: 1px;
+          margin-left: 1px;
+          width: 40px;
+          height: 40px;
+          border-radius: 2px;
+          user-select: none
+      }
+      .google-btn .google-icon-svg {
+          position: absolute;
+          margin-top: 11px;
+          margin-left: 11px;
+          width: 18px;
+          height: 18px;
+          user-select: none
+      }
+      .google-btn .btn-text {
+          float: right;
+          margin: 11px 14px 40px 40px;
+          color: #757575;
+          font-size: 14px;
+          letter-spacing: .2px;
+          font-family: Roboto;
+          user-select: none
+      }
+      .google-btn:hover {
+          box-shadow: 0 3px 8px rgba(117, 117, 117, .5);
+          user-select: none
+      }
+      .google-btn:active {
+          box-shadow: 0 1px 1px #757575;
+          background: #F8F8F8;
+          color: #fff;
+          user-select: none
+      }
+      .normal-btn {
+          margin: 25px;
+          width: auto;
+          display: inline-block;
+          min-width: auto;
+          max-width: 184px;
+          height: 42px;
+          background-color: #fcfcfc;
+          border-radius: 2px;
+          box-shadow: 0 3px 4px 0 rgba(0, 0, 0, .2);
+          cursor: pointer;
+          cursor: hand;
+          align-self: center;-webkit-touch-callout: none;
+          -webkit-user-select: none;
+          -khtml-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          user-select: none;
+          transition: all 400ms ease 0s
+      }
+      .normal-btn .btn-text {
+          float: left;
+          margin: 11px 14px 11px 14px;
+          color: #757575;
+          font-size: 14px;
+          letter-spacing: .2px;
+          font-family: Roboto;
+          user-select: none
+      }
+      .normal-btn:hover {
+          box-shadow: 0 3px 8px rgba(117, 117, 117, .5);
+          user-select: none
+      }
+      .normal-btn:active {
+          box-shadow: 0 1px 1px #757575;
+          background: #F8F8F8;
+          color: #fff;
+          user-select: none
+      }
+      @-webkit-keyframes box-1 {
+        0% {
+          -webkit-transform: translateX(30%) scale(0.8);
+                  transform: translateX(30%) scale(0.8);
+          z-index: 1;
+        }
+        49% {
+          -webkit-transform: translateX(0) scale(0.9);
+                  transform: translateX(0) scale(0.9);
+          z-index: 1;
+        }
+        50% {
+          -webkit-transform: translateX(0) scale(0.9);
+                  transform: translateX(0) scale(0.9);
+          z-index: 2;
+          label,
+          input {
+            opacity: 0;
+          }
+        }
+        100% {
+          -webkit-transform: translateX(35%) scale(1);
+                  transform: translateX(35%) scale(1);
+          z-index: 2;
+          label,
+          input {
+            opacity: 1;
+          }
+        }
+      }
+      @keyframes box-1 {
+        0% {
+          -webkit-transform: translateX(30%) scale(0.8);
+                  transform: translateX(30%) scale(0.8);
+          z-index: 1;
+        }
+        49% {
+          -webkit-transform: translateX(0) scale(0.9);
+                  transform: translateX(0) scale(0.9);
+          z-index: 1;
+        }
+        50% {
+          -webkit-transform: translateX(0) scale(0.9);
+                  transform: translateX(0) scale(0.9);
+          z-index: 2;
+          label,
+          input {
+            opacity: 0;
+          }
+        }
+        100% {
+          -webkit-transform: translateX(35%) scale(1);
+                  transform: translateX(35%) scale(1);
+          z-index: 2;
+          label,
+          input {
+            opacity: 1;
+          }
+        }
+      }
+      @-webkit-keyframes box-1--out {
+        0% {
+          -webkit-transform: translateX(35%) scale(1);
+                  transform: translateX(35%) scale(1);
+          z-index: 2;
+          label {
+            opacity: 1;
+          }
+        }
+        49% {
+          -webkit-transform: translateX(0) scale(0.9);
+                  transform: translateX(0) scale(0.9);
+          z-index: 2;
+        }
+        50% {
+          -webkit-transform: translateX(0) scale(0.9);
+                  transform: translateX(0) scale(0.9);
+          z-index: 1;
+          label,
+          input {
+            opacity: 1;
+          }
+        }
+        100% {
+          -webkit-transform: translateX(30%) scale(0.8);
+                  transform: translateX(30%) scale(0.8);
+          z-index: 1;
+          label,
+          input {
+            opacity: 0;
+          }
+        }
+      }
+      @keyframes box-1--out {
+        0% {
+          -webkit-transform: translateX(35%) scale(1);
+                  transform: translateX(35%) scale(1);
+          z-index: 2;
+          label {
+            opacity: 1;
+          }
+        }
+        49% {
+          -webkit-transform: translateX(0) scale(0.9);
+                  transform: translateX(0) scale(0.9);
+          z-index: 2;
+        }
+        50% {
+          -webkit-transform: translateX(0) scale(0.9);
+                  transform: translateX(0) scale(0.9);
+          z-index: 1;
+          label,
+          input {
+            opacity: 1;
+          }
+        }
+        100% {
+          -webkit-transform: translateX(30%) scale(0.8);
+                  transform: translateX(30%) scale(0.8);
+          z-index: 1;
+          label,
+          input {
+            opacity: 0;
+          }
+        }
+      }
+      @-webkit-keyframes box-2 {
+        0% {
+          -webkit-transform: translateX(-30%) scale(0.8);
+                  transform: translateX(-30%) scale(0.8);
+          z-index: 1;
+        }
+        49% {
+          -webkit-transform: translateX(0) scale(0.9);
+                  transform: translateX(0) scale(0.9);
+          z-index: 1;
+        }
+        50% {
+          -webkit-transform: translateX(0) scale(0.9);
+                  transform: translateX(0) scale(0.9);
+          z-index: 2;
+          label,
+          input {
+            opacity: 0;
+          }
+        }
+        100% {
+          -webkit-transform: translateX(-35%) scale(1);
+                  transform: translateX(-35%) scale(1);
+          z-index: 2;
+          label,
+          input {
+            opacity: 1;
+          }
+        }
+      }
+      @keyframes box-2 {
+        0% {
+          -webkit-transform: translateX(-30%) scale(0.8);
+                  transform: translateX(-30%) scale(0.8);
+          z-index: 1;
+        }
+        49% {
+          -webkit-transform: translateX(0) scale(0.9);
+                  transform: translateX(0) scale(0.9);
+          z-index: 1;
+        }
+        50% {
+          -webkit-transform: translateX(0) scale(0.9);
+                  transform: translateX(0) scale(0.9);
+          z-index: 2;
+          label,
+          input {
+            opacity: 0;
+          }
+        }
+        100% {
+          -webkit-transform: translateX(-35%) scale(1);
+                  transform: translateX(-35%) scale(1);
+          z-index: 2;
+          label,
+          input {
+            opacity: 1;
+          }
+        }
+      }
+      @-webkit-keyframes box-2--out {
+        0% {
+          -webkit-transform: translateX(-35%) scale(1);
+                  transform: translateX(-35%) scale(1);
+          z-index: 2;
+        }
+        49% {
+          -webkit-transform: translateX(0) scale(0.9);
+                  transform: translateX(0) scale(0.9);
+          z-index: 2;
+        }
+        50% {
+          -webkit-transform: translateX(0) scale(0.9);
+                  transform: translateX(0) scale(0.9);
+          z-index: 1;
+          label,
+          input {
+            opacity: 1;
+          }
+        }
+        100% {
+          -webkit-transform: translateX(-30%) scale(0.8);
+                  transform: translateX(-30%) scale(0.8);
+          z-index: 1;
+          label,
+          input {
+            opacity: 0;
+          }
+        }
+      }
+      @keyframes box-2--out {
+        0% {
+          -webkit-transform: translateX(-35%) scale(1);
+                  transform: translateX(-35%) scale(1);
+          z-index: 2;
+        }
+        49% {
+          -webkit-transform: translateX(0) scale(0.9);
+                  transform: translateX(0) scale(0.9);
+          z-index: 2;
+        }
+        50% {
+          -webkit-transform: translateX(0) scale(0.9);
+                  transform: translateX(0) scale(0.9);
+          z-index: 1;
+          label,
+          input {
+            opacity: 1;
+          }
+        }
+        100% {
+          -webkit-transform: translateX(-30%) scale(0.8);
+                  transform: translateX(-30%) scale(0.8);
+          z-index: 1;
+          label,
+          input {
+            opacity: 0;
+          }
+        }
+      }   
+    </style>
+  </head>
+
+  <body>
+    <div class="panel">
+      <ul class="panel__menu" id="menu">
+        <hr/>
+        <li id="signUp"><a href="#">Sign up</a></li>
+      </ul>
+
+      <div class="panel__wrap">
+        <!--SIGN UP-->
+        <form method='POST'> 
+          {% csrf_token %}
+          <div class="panel__box" id="signUpBox">
+            {{ form.as_p }}
+            <a href="{% url 'client:loginUser' %}">
+              <input type="submit" value="save"/>
+            </a>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      var menu = document.getElementById('menu'),
+      panelMenu = menu.querySelectorAll('li'),
+      panelBoxes = document.querySelectorAll('.panel__box'),
+      signUp = document.getElementById('signUp'),
+      signIn = document.getElementById('signIn');
+
+      function removeSelection(){
+        for(var i = 0, len = panelBoxes.length; i < len; i++){panelBoxes[i].classList.remove('active');
+        }
+      }
+
+      signIn.onclick = function(e){
+        e.preventDefault();
+        removeSelection();
+        panelBoxes[0].classList.add('active');
+        menu.classList.remove('second-box');
+      }
+
+      signUp.onclick = function(e){
+        e.preventDefault();
+        removeSelection();
+        panelBoxes[1].classList.add('active');
+        menu.classList.add('second-box');
+      }
+    </script>
+  </body>
+</html>
